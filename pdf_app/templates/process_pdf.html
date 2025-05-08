@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Process PDF</title>
+</head>
+<body>
+    <h1>Process PDF Content</h1>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <div>
+        <h2>Summarize</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="summarize">
+            <button type="submit">Generate Summary</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Translate</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="translate">
+            <label for="language">Select Language:</label>
+            <select name="language">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="zh-CN">Chinese (Simplified)</option>
+                </ul>
+            </select>
+            <button type="submit">Translate</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Ask a Question</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="ask">
+            <label for="question">Question:</label>
+            <input type="text" name="question" required>
+            <button type="submit">Ask</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Voice Output</h2>
+        <form method="post" action="{% url 'voice_output' %}">
+            {% csrf_token %}
+            <input type="hidden" name="text_to_speak" value="{{ request.session.pdf_text|default:'' }}">
+            <button type="submit" {% if not request.session.pdf_text %}disabled{% endif %}>Generate Voice (Conceptual)</button>
+            {% if not request.session.pdf_text %}
+                <p style="color: gray;">Please upload a PDF first to enable voice output.</p>
+            {% endif %}
+            <p style="font-style: italic;">Note: Actual voice generation would require integration with a Text-to-Speech service.</p>
+        </form>
+    </div>
+
+    <p><a href="{% url 'upload_pdf' %}">Upload Another PDF</a></p>
+</body>
+</html>

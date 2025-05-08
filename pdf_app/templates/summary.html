@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+</head>
+<body>
+    <h1>{% if type == 'summary' %}Summary{% elif type == 'translation' %}Translation{% elif type == 'answer' %}Answer{% endif %}</h1>
+
+    {% if type == 'summary' %}
+        <p>{{ result }}</p>
+        <form method="post" action="{% url 'download_pdf' %}">
+            {% csrf_token %}
+            <input type="hidden" name="content" value="{{ result }}">
+            <input type="hidden" name="filename" value="summary.pdf">
+            <button type="submit">Download as PDF</button>
+        </form>
+    {% elif type == 'translation' %}
+        <p><strong>Original Text:</strong> {{ request.session.pdf_text|truncatechars:200 }}...</p>
+        <p><strong>Translated to {{ language }}:</strong> {{ result }}</p>
+        <form method="post" action="{% url 'download_pdf' %}">
+            {% csrf_token %}
+            <input type="hidden" name="content" value="{{ result }}">
+            <input type="hidden" name="filename" value="translation_{{ language }}.pdf">
+            <button type="submit">Download as PDF</button>
+        </form>
+    {% elif type == 'answer' %}
+        <p><strong>Question:</strong> {{ question }}</p>
+        <p><strong>Answer:</strong> {{ result }}</p>
+        <form method="post" action="{% url 'download_pdf' %}">
+            {% csrf_token %}
+            <input type="hidden" name="content" value="{{ result }}">
+            <input type="hidden" name="filename" value="answer_to_{{ question|slugify }}.pdf">
+            <button type="submit">Download as PDF</button>
+        </form>
+    {% endif %}
+
+    <p><a href="{% url 'process_pdf' %}">Go Back to Processing Options</a></p>
+    <p><a href="{% url 'upload_pdf' %}">Upload Another PDF</a></p>
+</body>
+</html>

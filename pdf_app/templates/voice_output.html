@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voice Output</title>
+</head>
+<body>
+    <h1>Voice Output</h1>
+    <p>Text to be spoken:</p>
+    <textarea rows="10" cols="80" readonly>{{ text }}</textarea>
+    {% if audio_file %}
+        <h2>Listen to Voice</h2>
+        <audio controls autoplay>
+            <source src="/{{ audio_file }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <p><a href="{% url 'download_audio' audio_file=audio_file %}">Download Audio (MP3)</a></p>
+        <p style="color: green;">Audio generated and playing.</p>
+    {% else %}
+        <p style="color: orange;">Generating audio...</p>
+        <p style="font-style: italic;">Please wait while the audio is being created.</p>
+    {% endif %}
+    <p><a href="{% url 'process_pdf' %}">Go Back to Processing Options</a></p>
+    <p><a href="{% url 'upload_pdf' %}">Upload Another PDF</a></p>
+
+    {% if audio_file %}
+    <script>
+        // Optional: Clean up the audio file after a short delay (for development)
+        setTimeout(() => {
+            fetch('/delete_audio/{{ audio_file }}')
+            .then(response => console.log('Audio file cleanup:', response.status));
+        }, 10000); // Delete after 10 seconds (adjust as needed)
+    </script>
+    {% endif %}
+</body>
+</html>

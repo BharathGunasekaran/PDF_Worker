@@ -2,18 +2,24 @@
 <html>
 <head>
     <title>Result</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
-<body>
-    <h1>{% if type == 'summary' %}Summary{% elif type == 'translation' %}Translation{% elif type == 'answer' %}Answer{% endif %}</h1>
+<body class="animate__animated animate__fadeIn">
+    <h1 class="animate__animated animate__zoomIn">
+        {% if type == 'summary' %}Summary{% elif type == 'translation' %}Translation{% elif type == 'answer' %}Answer{% endif %}
+    </h1>
 
     {% if type == 'summary' %}
-        <p>{{ result }}</p>
+        <p class="animate__animated animate__fadeInUp">{{ result }}</p>
         <form method="post" action="{% url 'download_pdf' %}">
             {% csrf_token %}
             <input type="hidden" name="content" value="{{ result }}">
             <input type="hidden" name="filename" value="summary.pdf">
             <button type="submit">Download as PDF</button>
         </form>
+
     {% elif type == 'translation' %}
         <p><strong>Original Text:</strong> {{ request.session.pdf_text|truncatechars:200 }}...</p>
         <p><strong>Translated to {{ language }}:</strong> {{ result }}</p>
@@ -23,6 +29,7 @@
             <input type="hidden" name="filename" value="translation_{{ language }}.pdf">
             <button type="submit">Download as PDF</button>
         </form>
+
     {% elif type == 'answer' %}
         <p><strong>Question:</strong> {{ question }}</p>
         <p><strong>Answer:</strong> {{ result }}</p>

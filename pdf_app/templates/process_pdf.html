@@ -2,14 +2,17 @@
 <html>
 <head>
     <title>Process PDF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
-<body>
-    <h1>Process PDF Content</h1>
+<body class="animate__animated animate__fadeIn">
+    <h1 class="animate__animated animate__fadeInDown">Process PDF Content</h1>
     {% if error %}
         <p style="color: red;">{{ error }}</p>
     {% endif %}
 
-    <div>
+    <div class="animate__animated animate__fadeInUp">
         <h2>Summarize</h2>
         <form method="post">
             {% csrf_token %}
@@ -18,7 +21,7 @@
         </form>
     </div>
 
-    <div>
+    <div class="animate__animated animate__fadeInUp animate__delay-1s">
         <h2>Translate</h2>
         <form method="post">
             {% csrf_token %}
@@ -30,13 +33,12 @@
                 <option value="fr">French</option>
                 <option value="de">German</option>
                 <option value="zh-CN">Chinese (Simplified)</option>
-                </ul>
             </select>
             <button type="submit">Translate</button>
         </form>
     </div>
 
-    <div>
+    <div class="animate__animated animate__fadeInUp animate__delay-2s">
         <h2>Ask a Question</h2>
         <form method="post">
             {% csrf_token %}
@@ -47,7 +49,7 @@
         </form>
     </div>
 
-    <div>
+    <div class="animate__animated animate__fadeInUp animate__delay-3s">
         <h2>Voice Output</h2>
         <form method="post" action="{% url 'voice_output' %}">
             {% csrf_token %}

@@ -1,6 +1,4 @@
-node_modules/
-.env
+# Python
 __pycache__/
 *.pyc
 env312/
-*.log

@@ -34,11 +34,12 @@ pip install -r requirements.txt
 ```
 
 ### 2. Add your API key
-Create `pdf_project/.env`:
+Copy `pdf_project/.env.example` to `pdf_project/.env` and fill it in:
 ```env
 GEMINI_API_KEY=your_gemini_api_key
+DJANGO_SECRET_KEY=your_django_secret_key
 ```
-Keep this file out of version control.
+`.env` is git-ignored, so your keys stay private.
 
 ### 3. Run the app
 ```bash

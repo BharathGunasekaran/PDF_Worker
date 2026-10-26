@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 env312/
+
+# Secrets
+.env
